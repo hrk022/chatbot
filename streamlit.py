@@ -25,7 +25,7 @@ for message in st.session_state.messages:
 # Handle user input
 if prompt := st.chat_input("Ask me anything..."):
     # Show user message
-    with st.chat_message("user"):
+    with st.chat_message("user",avatar="👻"):
         st.markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
@@ -37,10 +37,9 @@ if prompt := st.chat_input("Ask me anything..."):
     full_prompt += "<|assistant|>\n"
 
     # Generate response
-    with st.chat_message("assistant"):
+    with st.chat_message("assistant",avatar="🧠"):
         message_placeholder = st.empty()
-        result = generator(full_prompt, max_length=512, num_return_sequences=1, truncation=True)[0]['generated_text']
-        # Extract assistant reply
+        result = generator(full_prompt, max_new_tokens=150, num_return_sequences=1)[0]['generated_text']
         reply = result.split("<|assistant|>")[-1].strip()
         message_placeholder.markdown(reply)
 
